@@ -3,8 +3,21 @@ import classNames from "classnames";
 
 import styles from "./style.module.scss";
 
-const Input = () => {
-  const [input, setInput] = useState("");
+interface Props {
+  id?: string;
+  name?: string;
+  value: string;
+  placeholder?: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+}
+
+const Input: React.FC<Props> = ({
+  id,
+  name,
+  value,
+  placeholder,
+  onChange,
+}) => {
   const [focus, setFocus] = useState(false);
   const [shrinkPlaceholder, setShrinkPlaceholder] = useState(false);
   const [error, setError] = useState(false);
@@ -14,7 +27,8 @@ const Input = () => {
   }, [input, focus]);
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = e => {
-    setInput(e.target.value);
+    onChange(e);
+
     if (error) {
       setError(false);
     }
@@ -43,15 +57,15 @@ const Input = () => {
       })}
     >
       <input
+        id={id}
+        name={name}
         className={styles.input}
-        value={input}
+        value={value}
         onChange={handleInputChange}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
       />
-      <span className={styles.placeholder}>
-        Enter your street or postal code
-      </span>
+      {placeholder && <span className={styles.placeholder}>{placeholder}</span>}
     </div>
   );
 };

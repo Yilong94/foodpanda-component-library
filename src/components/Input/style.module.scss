@@ -1,8 +1,5 @@
 @import "../../styles/variables.scss";
 
-$input-vertical-padding: 0.75rem;
-$input-horitonzal-padding: 1rem;
-
 .inputContainer {
   border: 1px solid $color-light-grey;
   position: relative;
@@ -54,5 +51,9 @@ $input-horitonzal-padding: 1rem;
     padding: 0 3px;
     background-color: white;
     transition: transform 0.1s, font-size 0.1s;
+  }
+
+  .icon {
+
   }
 }
