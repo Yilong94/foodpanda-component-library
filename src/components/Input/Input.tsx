@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 
 import styles from "./style.module.scss";
+import { ValidateFunction, validateAll } from "../../utils/validate";
 
 interface Props {
   id?: string;
@@ -9,6 +10,7 @@ interface Props {
   value: string;
   placeholder?: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
+  validate?: ValidateFunction[];
 }
 
 const Input: React.FC<Props> = ({
@@ -17,14 +19,19 @@ const Input: React.FC<Props> = ({
   value,
   placeholder,
   onChange,
+  validate
 }) => {
   const [focus, setFocus] = useState(false);
   const [shrinkPlaceholder, setShrinkPlaceholder] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    setShrinkPlaceholder(!!input || !!focus);
-  }, [input, focus]);
+    if (validate && !validateAll(value, validate)) setError(true);
+  }, []);
+
+  useEffect(() => {
+    setShrinkPlaceholder(!!value || !!focus);
+  }, [value, focus]);
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = e => {
     onChange(e);
@@ -40,11 +47,7 @@ const Input: React.FC<Props> = ({
 
   const handleInputBlur = () => {
     setFocus(false);
-
-    // Validate on blur
-    if (!input || !/^\d{6}$/.test(input)) {
-      setError(true);
-    }
+    if (validate && !validateAll(value, validate)) setError(true);
   };
 
   return (

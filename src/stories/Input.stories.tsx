@@ -2,6 +2,7 @@ import React from "react";
 
 import Input from "../components/Input";
 import withInputProps from "../hoc/withInputProps";
+import { isRequired, isPostalCode } from "../utils/validate";
 
 export default {
   component: Input,
@@ -29,4 +30,7 @@ export const WithInitialValueAndPlaceholder = () => (
     value="760359"
     placeholder="Enter your street or postal code"
   />
+);
+export const WithInvalidValue = () => (
+  <InputWithInputProps value="invalid" validate={[isRequired, isPostalCode]} />
 );
